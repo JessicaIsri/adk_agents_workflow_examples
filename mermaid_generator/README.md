@@ -11,8 +11,6 @@ O projeto utiliza um `SequentialAgent` que orquestra a comunicação entre sub-a
     * Garante que a lógica do fluxo esteja coerente antes da geração do código.
 2.  **Mermaid Agent**: O "Compilador" visual. Ele traduz o JSON para a sintaxe Mermaid.
     * Aplica estilos específicos: `([ ])` para início/fim, `{ }` para decisões e `[ ]` para processos.
-3.  **Reviewer Agent**: O "Auditor" de sintaxe.
-    * Corrige quebras de linha, aspas obrigatórias e garante que o código seja renderizável em qualquer editor Mermaid.
 
 ---
 
@@ -45,3 +43,32 @@ O projeto utiliza um `SequentialAgent` que orquestra a comunicação entre sub-a
   ],
   "conexoes": [...]
 }
+```
+### 3. Saida do Gerador (saída final)
+```aiignore
+graph TD
+    inicio(["Verificar Status de Login"])
+    decisao_logado{"Usuário já está logado?"}
+    dashboard["Acessar Dashboard"]
+    pagina_login["Exibir Página de Login"]
+    tentar_login["Usuário Tenta Fazer Login"]
+    validar_cred{"Validar Credenciais"}
+    incrementar_erro["Incrementar Contador de Erros"]
+    decisao_erros{"Tentativas de Senha = 4?"}
+    bloquear_conta["Bloquear Conta"]
+    fim_sucesso(["Login Concluído / Dashboard Acessado"])
+    fim_bloqueio(["Conta Bloqueada"])
+
+    inicio --> decisao_logado
+    decisao_logado -->|"Sim"| dashboard
+    decisao_logado -->|"Não"| pagina_login
+    pagina_login --> tentar_login
+    tentar_login --> validar_cred
+    validar_cred -->|"Sucesso"| dashboard
+    validar_cred -->|"Falha"| incrementar_erro
+    incrementar_erro --> decisao_erros
+    decisao_erros -->|"Sim"| bloquear_conta
+    decisao_erros -->|"Não"| pagina_login
+    dashboard --> fim_sucesso
+    bloquear_conta --> fim_bloqueio
+```
