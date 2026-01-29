@@ -72,3 +72,51 @@ graph TD
     dashboard --> fim_sucesso
     bloquear_conta --> fim_bloqueio
 ```
+
+### ⚙️ Como Executar
+
+Siga os passos abaixo para configurar o ambiente e rodar o gerador de diagramas.
+
+#### 1. Instalação
+Certifique-se de ter o Python 3.10 ou superior instalado. Instale a biblioteca de agentes do Google:
+
+```bash
+pip install google-adk
+```
+
+#### 2. Configuração de Credenciais
+O agente utiliza o modelo gemini-2.5-flash. Configure sua chave de API no terminal ou no seu ambiente virtual:
+```
+# Linux/macOS
+export GOOGLE_API_KEY="sua_chave_aqui"
+
+# Windows (PowerShell)
+$env:GOOGLE_API_KEY="sua_chave_aqui"
+```
+
+####  3. Implementação
+Crie um arquivo (ex: run_agent.py) para invocar o fluxo sequencial:
+
+```
+from agent import root_agent
+
+def main():
+    print("--- Mermaid Generator Agent ---")
+    descricao = input("Descreva o fluxo desejado: ")
+    
+    # Inicia a cadeia de execução: Interpreter -> MermaidGenerator
+    resultado = root_agent.run(descricao)
+    
+    print("\n✅ Código Mermaid Gerado:\n")
+    print(resultado)
+
+if __name__ == "__main__":
+    main()
+```
+
+#### 4. Renderização do Resultado
+O código retornado pelo agente segue o padrão Markdown. Você pode:
+
+- Copiar e colar no Mermaid Live Editor.
+- Visualizar diretamente no VS Code (com extensão de Markdown).
+
